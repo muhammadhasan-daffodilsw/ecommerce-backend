@@ -73,13 +73,7 @@ export class PatchUserDto {
   @IsString()
   @Matches(/^\+[1-9]\d{1,14}$/)
   phone_number?: string;
-
-  @ApiPropertyOptional({ minLength: 8, maxLength: 128 })
-  @IsOptional()
-  @IsString()
-  @MinLength(8)
-  @MaxLength(128)
-  password?: string;
+  
 }
 
 // PUT /users/:id

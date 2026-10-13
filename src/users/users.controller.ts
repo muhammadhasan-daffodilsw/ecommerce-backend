@@ -11,6 +11,8 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  Req,
+  Body,
 } from '@nestjs/common';
 import { UsersService } from './users.service.js';
 import {
@@ -48,5 +50,13 @@ export class UsersController {
     @Param('id', new ParseUUIDPipe({ version: 4 })) id: string,
   ): Promise<UserResponseDto> {
     return await this.userService.getUserByID(id);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Patch('me')
+  async patchUser(@Request() req : any, @Body() data : PatchUserDto ) : Promise<UserMeResponseDto>
+  {
+    return await this.userService.patchUser(req.user.id, data);
   }
 }
