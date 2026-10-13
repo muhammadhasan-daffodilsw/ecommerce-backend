@@ -3,6 +3,7 @@ import { AuthModule } from './auth/auth.module.js';
 import { UsersModule } from './users/users.module.js';
 import { DatabaseModule } from './database/database.module.js';
 import { ConfigModule } from '@nestjs/config';
+import { PhoneUtilModule } from './common/phone-util/phone-util.module.js';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -11,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     UsersModule,
     DatabaseModule,
+    PhoneUtilModule,
   ],
   controllers: [],
   providers: [],

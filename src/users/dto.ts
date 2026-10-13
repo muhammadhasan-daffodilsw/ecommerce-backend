@@ -32,6 +32,7 @@ export class CreateUserDto {
 // General user response
 export class UserResponseDto {
   @ApiProperty({ format: 'uuid' })
+  @IsUUID()
   id: string;
 
   @ApiProperty({ example: 'john_doe' })
@@ -39,10 +40,18 @@ export class UserResponseDto {
 
   @ApiProperty({ example: '+919876543210' })
   phone_number: string;
+
+  constructor(partial: Partial<UserResponseDto>) {
+    Object.assign(this, partial);
+  }
 }
 
 // GET /users/me
 export class UserMeResponseDto extends UserResponseDto {
+  constructor(partial: Partial<UserMeResponseDto>) {
+    super(partial as Partial<UserResponseDto>);
+    Object.assign(this, partial);
+  }
   @ApiProperty({ example: '2026-10-13T09:00:00.000Z' })
   created_at: Date;
 

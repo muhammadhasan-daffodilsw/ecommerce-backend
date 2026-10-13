@@ -3,9 +3,7 @@ import { PrismaService } from '../database/prisma/prisma.service.js';
 
 @Injectable()
 export class UsersRepository {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   // CREATE
   async createUser(data: {
