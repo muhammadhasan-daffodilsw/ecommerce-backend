@@ -55,8 +55,10 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Patch('me')
-  async patchUser(@Request() req : any, @Body() data : PatchUserDto ) : Promise<UserMeResponseDto>
-  {
+  async patchUser(
+    @Request() req: any,
+    @Body() data: PatchUserDto,
+  ): Promise<UserMeResponseDto> {
     return await this.userService.patchUser(req.user.id, data);
   }
 }

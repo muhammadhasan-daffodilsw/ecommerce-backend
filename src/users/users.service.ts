@@ -70,36 +70,31 @@ export class UsersService {
     });
   }
 
-  async patchUser(
-  id: string,
-  data: PatchUserDto,
-): Promise<UserMeResponseDto> {
-  try {
-    const user = await this.usersRepo.updateUser(id, data);
+  async patchUser(id: string, data: PatchUserDto): Promise<UserMeResponseDto> {
+    try {
+      const user = await this.usersRepo.updateUser(id, data);
 
-    return new UserMeResponseDto({
-      id: user.id,
-      username: user.username,
-      phone_number: user.phone_number,
-      created_at: user.created_at,
-      role: user.role,
-    });
-  } catch (error) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError
-    ) {
-      if (error.code === 'P2002') {
-        throw new ConflictException(
-          'Username or phone number is already in use',
-        );
+      return new UserMeResponseDto({
+        id: user.id,
+        username: user.username,
+        phone_number: user.phone_number,
+        created_at: user.created_at,
+        role: user.role,
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ConflictException(
+            'Username or phone number is already in use',
+          );
+        }
+
+        if (error.code === 'P2025') {
+          throw new NotFoundException('User not found');
+        }
       }
 
-      if (error.code === 'P2025') {
-        throw new NotFoundException('User not found');
-      }
+      throw error;
     }
-
-    throw error;
   }
-}
 }
