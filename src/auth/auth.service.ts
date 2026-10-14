@@ -9,6 +9,7 @@ import {
   AuthResponseDto,
   SignupDto,
   RefreshTokenDto,
+  InfoDto
 } from './dto.js';
 import { ConfigService } from '@nestjs/config';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
@@ -75,6 +76,28 @@ export class AuthService {
     return this.issueTokens(session.user_id);
   }
 
+  async logout(id : string, data : RefreshTokenDto) : Promise<InfoDto>
+    {
+      const refreshTokenHash = createHash('sha256')
+      .update(data.refresh_token)
+      .digest('hex');
+      const session = await this.authRepo.findSessionByHash(refreshTokenHash);
+      if (!session || session.user_id != id ) 
+      {
+        throw new UnauthorizedException("Refresh Token Invalid")
+      }
+      this.revokeSession(refreshTokenHash);
+      return {'message': 'Session Revoked.'};
+    }
+
+    async logoutAll(id : string) : Promise<InfoDto>
+    {
+  
+      await this.authRepo.revokeAllSessions(id);
+
+      return {'message' : 'All sessions revoked.'};
+    }
+
   async revokeSession(refreshTokenHash: string) {
     await this.authRepo.revokeSession(refreshTokenHash);
   }
@@ -114,6 +137,4 @@ export class AuthService {
       refresh_token_ttl: REFRESH_TOKEN_TTL,
     };
   }
-
-  revokeAllSessions() {}
 }

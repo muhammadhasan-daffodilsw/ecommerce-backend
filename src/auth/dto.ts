@@ -65,3 +65,8 @@ export class AuthResponseDto {
   @ApiProperty({ example: 604800 })
   refresh_token_ttl: number;
 }
+
+export class InfoDto {
+  @ApiProperty()
+  message : string;
+}
