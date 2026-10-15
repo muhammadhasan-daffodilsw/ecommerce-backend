@@ -9,9 +9,7 @@ import {
 import { Permission, Role } from './permissions.js';
 import { PERMISSION_MATRIX } from './permission.matrix.js';
 
-export function RequirePermission(
-  permission: Permission,
-): Type<CanActivate> {
+export function RequirePermission(permission: Permission): Type<CanActivate> {
   @Injectable()
   class PermissionGuard implements CanActivate {
     canActivate(context: ExecutionContext): boolean {

@@ -1,6 +1,19 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards , Request} from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { AuthService } from './auth.service.js';
-import { ApiTags, ApiOkResponse, ApiCreatedResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOkResponse,
+  ApiCreatedResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 
 import {
   LoginDto,
@@ -41,7 +54,10 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: InfoDto })
-  async logout(@Request() req :any ,@Body() data: RefreshTokenDto): Promise<InfoDto> {
+  async logout(
+    @Request() req: any,
+    @Body() data: RefreshTokenDto,
+  ): Promise<InfoDto> {
     return await this.authService.logout(req.user.id, data);
   }
 
@@ -50,8 +66,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: InfoDto })
-  async logoutAll(@Request() req :any): Promise<InfoDto> {
+  async logoutAll(@Request() req: any): Promise<InfoDto> {
     return await this.authService.logoutAll(req.user.id);
   }
-
 }

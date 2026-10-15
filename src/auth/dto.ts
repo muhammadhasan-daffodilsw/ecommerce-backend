@@ -68,5 +68,5 @@ export class AuthResponseDto {
 
 export class InfoDto {
   @ApiProperty()
-  message : string;
+  message: string;
 }
